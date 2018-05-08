@@ -7,7 +7,7 @@ Author: Aaron Dallas
 class CircularBuffer {
     constructor(max_length) {
         this.max_length = max_length;
-        this.buffer = new Array();
+        this.buffer = [];
         this.read_index = 0;
         this.write_index = 0;
     }
@@ -15,17 +15,16 @@ class CircularBuffer {
     getLength() { return this.buffer.length; }
 
     append(obj) {
-        this.write_index++;
-
-        if(this.write_index > this.max_length)
+        if(this.buffer.length === this.max_length)
             this.write_index = 0;
 
-        if(this.write_index == this.getLength()) {
+        if(this.write_index === this.getLength()) {
             this.buffer.push(obj);
         }
         else {
             this.buffer[this.write_index] = obj;
         }
+        this.write_index++;
     }
 
     getCurr() {
@@ -53,5 +52,7 @@ class CircularBuffer {
         this.read_index--;
         if(this.read_index < 0)
             this.read_index = this.getLength() - 1;
+
+        return this.buffer[this.read_index];
     }
 }
